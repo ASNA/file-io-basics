@@ -1,0 +1,126 @@
+﻿Using System
+Using System.Collections
+Using System.Text
+Using System.Data
+
+BegClass Program
+
+	BegSr Main Shared(*Yes) Access(*Public) Attributes(System.STAThread())
+		DclSrParm args Type(*String) Rank(1)
+
+        DclFld t Type(Test) New()
+
+        t.Run()
+        Console.WriteLine('Press any key to end...')
+        Console.ReadKey()
+	EndSr
+
+EndClass
+
+BegClass Test
+
+    DclDB DGDB DBName("*Public/DG Net Local") 
+                
+    DclDiskFile Customer +
+            Type(*Input) + 
+            Org(*Indexed) + 
+            Prefix(Customer_) + 
+            File("Examples/CMastNewL1") +
+            DB(DGDB) +
+            ImpOpen(*No)
+                                                                
+    DclMemoryFile MemFile ImpOpen(*Yes) 
+        DclRecordFormat Customers 
+        DclRecordFld    Customer_CMCustNo  Type(*Packed) Len(9,0)
+        DclRecordFld    Customer_CMName    Type(*Char) Len(40)
+
+    BegSr Run Access(*Public) 
+        DoChain()
+        // ManyRecords()
+        PopulateMemoryFile()
+
+        //TryCatch
+    EndSr
+
+    BegSr OpenData 
+        Connect DGDB
+        Open Customer
+    EndSr 
+
+    BegSr CloseData
+        Close *All
+        Disconnect DGDB
+    EndSr
+
+	BegSr DoChain Access(*Public) 
+        OpenData()
+        Customer_CMCustNo = 111700
+
+        Chain Customer Key(Customer_CMCustNo) 
+        If Customer.IsFound()
+            Console.WriteLine(Customer_CMName) 
+        Else
+            Console.WriteLine('Customer not found') 
+        EndIf 
+
+        CloseData()        
+	EndSr
+
+    BegSr ManyRecords Access(*Public) 
+        DclFld Counter Type(*Integer4) 
+
+        OpenData()
+        Customer_CMCustNo = 111700
+
+        Counter = 1 
+        Read Customer 
+        DoWhile NOT Customer.IsEof AND Counter <= 10
+            Read Customer
+            Console.WriteLine(Customer_CMName) 
+            Counter = Counter + 1
+        EndDo 
+
+        CloseData()        
+	EndSr
+
+    BegSr PopulateMemoryFile Access(*Public) 
+        DclFld Counter Type(*Integer4) 
+
+        OpenData()
+        MemFile.ClearFileData()            
+
+        Customer_CMCustNo = 111700
+
+        Counter = 1 
+        Read Customer 
+        DoWhile NOT Customer.IsEof AND Counter <= 10
+            Read Customer
+            Write MemFile 
+            Counter = Counter + 1
+        EndDo 
+
+        DisplayMemoryFile(MemFile.DataSet.Tables[0])
+        
+        // Not in < AVR 12:
+        // DisplayMemoryFile(MemFile.GetFileData())
+
+        CloseData()        
+	EndSr
+
+    BegSr DisplayMemoryFile
+        DclSrParm dt Type(DataTable) 
+
+        ForEach dr Type(DataRow) Collection(dt.Rows) 
+            Console.WriteLine(dr['customer_cmname'].ToString())                                                                
+        EndFor 
+    EndSr
+
+
+
+
+
+
+
+
+
+EndClass 
