@@ -37,7 +37,7 @@ BegClass Test
     BegSr Run Access(*Public) 
         DoChain()
         // ManyRecords()
-        PopulateMemoryFile()
+        // PopulateMemoryFile()
 
         //TryCatch
     EndSr
@@ -99,15 +99,15 @@ BegClass Test
             Counter = Counter + 1
         EndDo 
 
-        DisplayMemoryFile(MemFile.DataSet.Tables[0])
+        ShowMemoryFileContents(MemFile.DataSet.Tables[0])
         
-        // Not in < AVR 12:
+        // GetFileData() available in AVR 12+
         // DisplayMemoryFile(MemFile.GetFileData())
 
         CloseData()        
 	EndSr
 
-    BegSr DisplayMemoryFile
+    BegSr ShowMemoryFileContents
         DclSrParm dt Type(DataTable) 
 
         ForEach dr Type(DataRow) Collection(dt.Rows) 

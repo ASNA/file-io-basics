@@ -1,54 +1,14 @@
-﻿# ASNA Visual RPG basic coding
+﻿# ASNA Visual RPG file IO basics
 
-### StringBuilder()
+### DoChain()
 
-Use the System.Text.StringBuilder class.
+Use the Chain op code.
 
-### NumericDataConversion()
+### ManyRecords()
 
-Convert a string into a number.
+Read file from beginning to end.
 
-### DateDataTypeFormatting()
+### PopulateMemoryFile()
 
-Format a date data type.
-
-### DateDataConversion()
-
-Convert a numeric date into a date data type.
-
-### DateMath()
-
-Perform date math.
-
-### DateMathBetter()
-
-A better way to perform date math (using functions).
-
-### ConvertDateToNumeric()
-
-Convert a date data type into a numeric value.
-
-### WorkWithGenericCollections()
-
-Using generic collections.
-
-### WorkingWithSystemDotObject
-
-Using System.Object (*Object in AVR)
-
-### ListItemCollection()
-
-Using the System.Web.UI.Controls ListItem and ListItemCollection class.
-
-
-
-
-
-
-
-
-
-
-
-
+Populate a memory file.
 
